@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>           
+             <title>ROCK , PAPER AND SCISSORS</title>  
+             <link rel="stylesheet" href="style.css"> 
+    </head>
+    
+    <body>
+
+        <div id="container">
+           <h1> ROCK , PAPER AND SCISSOR </h1>
+           <div class='result'></div>
+            
+           <button id="Rock">'ROCK'</button>
+           <button id="Paper">'PAPER'</button>
+           <button id="Scissor">'SCISSOR'</button>
+           
+
+           <div class='gameEnd'></div>
+        </div> 
+
+        <script>
+        round = 1;
+        computerScore = 0;
+        playerScore = 0;
+
+        let choice = ['Rock','Paper','Scissor'];
+        const btn = document.querySelectorAll('button');
+        const res = document.querySelector('.result');
+        const end = document.querySelector('.gameEnd');
+        res.textContent = 'Choose !';
+        
+        function computerPlay(){
+        let ch = Math.floor(Math.random() * 3);
+        return choice[ch];
+        }
+        function playRound(playerSelection,computerSelection){
+            const playerWin = `Round: ${round} - You Win! ${playerSelection} beats ${computerSelection}`;
+            const computerWin = `Round: ${round} - You Lose! ${computerSelection} beats ${playerSelection}`;
+            const tie = `Round: ${round} - It's a Tie! You both chose ${playerSelection}`;
+        if (playerSelection === "Rock") {
+        switch (computerSelection) {
+        case "Rock":
+        return tie;
+        break;
+        case "Paper":
+        computerScore++
+        return computerWin;
+        break;
+      case "Scissor":
+        playerScore++
+        return playerWin;
+        break;
+    }
+  } else if (playerSelection === "Paper") {
+    switch (computerSelection) {
+      case "Rock":
+        playerScore++
+        return playerWin;
+        break;
+      case "Paper":
+        return tie;
+        break;
+      case "Scissor":
+        computerScore++
+        return computerWin;
+        break;
+    }
+  } else if (playerSelection === "Scissor") {
+    switch (computerSelection) {
+      case "Rock":
+        computerScore++
+        return computerWin;
+        break;
+      case "Paper":
+        playerScore++
+        return playerWin;
+        break;
+      case "Scissor":
+        return tie;
+        break;
+    }
+  }
+};
+btn.forEach((button) => {
+            button.addEventListener('click', (e) => {
+                res.textContent = `${playRound(e.target.id,computerPlay())}`
+                round++;
+                if(round > 5){
+                    if (playerScore > computerScore){
+                    end.textContent = `Congratulation You Won ! Your Score - ${playerScore} Computer Score - ${computerScore}` ;
+                    }
+                    else if (playerScore < computerScore){
+                        end.textContent = `Oh No You Lose ! Your Score - ${playerScore} Computer Score - ${computerScore}` ;
+                    } else {
+                        end.textContent = `Its a Tie ! Your Score - ${playerScore} Computer Score - ${computerScore}`;
+                   }
+                   btn.forEach((button) => {
+                       button.disabled = true;
+                   });
+                }
+            });
+        });
+        
+           </script>
+    </body>
+        
+</html>
